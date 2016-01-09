@@ -1,0 +1,94 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                       III ISNPS Conference                      %
+%                     Avignon, June 12-16, 2016                   %	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is a template to be used for the preparation of abstracts  %
+% submitted to II Conference of the International Society of      %
+% NonParametric Statistics (ISNPS), to be held in Avignon,        % 
+% (France) June 12-16, 2016.                                      %
+%                                                                 %
+% The LaTeX file and the corresponding generated .pdf file need   % 
+% to be submitted no later than January 31, 2016.              %
+%                                                                 %
+% Please follow the following general guidelines:                 %
+% (1) Compile to PDFLaTeX                                         %
+% (2) Do not specify any definitions, commands or styles.         %
+% (3) Follow the below template very tightly.                     %
+% (4) Use reference names and labels which are very unlikely to   %
+%     be used by other contributors as well (e.g., starting with  %
+%     your name).                                                 %
+%                                                                 %
+% Please follow the above guidelines as strictly as possible.     %
+% If not, papers will be sent back to the authors with the        %
+% request to change their documents according to the guidelines.  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+% The preamble of the document should be left unchanged
+% except the encoding parameter which could be changed
+% usefull encoding are: utf8, latin1, applemac  
+% This parameter is passed "as is" to the inputenc package
+% please refer to inputenc docmentation for further details
+\usepackage[utf8]{III_ISNPS} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%          BELOW THIS LINE YOU CAN MODIFY WITH YOUR DATA          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Title and running title (short title) to be used as header
+% Running title should be no longer tha 50 characters
+\title{permute: A Python Package for Randomization Inference}
+\titlerunning{Include short title (up to 50 characters)}
+
+% Authors and running list of authors to be used as header
+% Author names must be included as: "N. Surname"
+% Author names for running titles must be specified as:
+% For one author: N. Surname
+% For two authors: N1. Surname1 and N2. Surname2
+% For more than two authors: N1. Surname \emph{et al.}
+\author{K. Ottoboni$^{1,*}$, J. Millman$^{2}$ and P.B. Stark$^1$}
+\authorrunning{K. Ottoboni \emph{et al.}}
+
+% Full address for correspondence and e-mail of all authors
+\address{$^1$ Department of Statistics, UC Berkeley; kellieotto@berkeley.edu, pbstark@berkeley.edu \\ $^2$ Division of Biostatistics, UC Berkeley; millman@berkeley.edu \\ $^{*}$Corresponding author}
+
+% Brief abstract of the paper
+\abstract{
+Software packages for randomization inference are few and far between.
+This forces people either to write one-off programs or to rely on classical statistical tests that may be inappropriate for their particular data.
+As Python picks up steam as a language for data analysis, the absence of a package for randomization inference presents a severe gap in the software's statistical capabilities.
+We develop \texttt{permute}, the first (to our knowledge) comprehensive package for randomization inference in Python.
+We illustrate the program's capabilities with three examples:
+\begin{itemize}
+\item a randomized experiment comparing the student evaluations of male and female instructors \citep{macnell:article}
+\item a study of the correlation between salt consumption and mortality on the level of nations
+\item assessing inter-rater reliability of eight raters who rated multiple time points in ten videos
+\item \textbf{potential other option: constrained matrix permutation with Stefan's shark data, or other education evaluation data}
+\end{itemize}
+We discuss future plans for the software's development.
+}
+
+% Keywords (at most 5)
+\keywords{Software; Permutation tests; Python; up to 2 more}
+
+\begin{document}
+
+% Produce the title
+\maketitle
+\thispagestyle{empty}
+
+% References, if any. Remove this if there are no references.
+\bibliographystyle{apalike}
+\begin{thebibliography}{99}
+
+\bibitem[\protect\astroncite{MacNell et al.}{2014}]{macnell:article} MacNell, L. and Driscoll, A. and Hunt, A. N. (2014). What's in a Name: Exposing Gender Bias in Student Ratings of Teaching. \textit{Innovative Higher Education}, %\textbf{}, 
+1--13.
+
+
+\end{thebibliography}
+
+\end{document}
+
