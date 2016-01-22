@@ -6,7 +6,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This is a template to be used for the preparation of abstracts  %
-% submitted to II Conference of the International Society of      %
+% submitted to III Conference of the International Society of      %
 % NonParametric Statistics (ISNPS), to be held in Avignon,        % 
 % (France) June 12-16, 2016.                                      %
 %                                                                 %
@@ -58,21 +58,22 @@
 % Brief abstract of the paper
 \abstract{
 Software packages for randomization inference are few and far between.
-This forces people either to write one-off programs or to rely on classical statistical tests that may be inappropriate for their particular data.
-As Python picks up steam as a language for data analysis, the absence of a package for randomization inference presents a severe gap in the software's statistical capabilities.
-We develop \texttt{permute}, the first (to our knowledge) comprehensive package for randomization inference in Python.
+%Most resampling packages are stand-alone programs or part of proprietary software, and are written to handle a narrow range of problems.
+This forces researchers either to rely on specialized stand-alone programs or to use classical statistical tests, which may require implausible assumptions about their data-generating process.
+As Python gains popularity as a language for carrying out data analysis from start to finish, the absence of a package for randomization inference presents a severe limit to users' statistical capabilities.
+We present \texttt{permute}, the first (to our knowledge) comprehensive Python package for randomization inference.
 We illustrate the program's capabilities with three examples:
 \begin{itemize}
-\item a randomized experiment comparing the student evaluations of male and female instructors \citep{macnell:article}
-\item a study of the correlation between salt consumption and mortality on the level of nations
-\item assessing inter-rater reliability of eight raters who rated multiple time points in ten videos
-\item \textbf{potential other option: constrained matrix permutation with Stefan's shark data, or other education evaluation data}
+\item a randomized experiment comparing the student evaluations of teaching for male and female instructors \citep{macnell:article}
+\item a study of the association between salt consumption and mortality on the level of nations
+\item an assessment of inter-rater reliability for a series of labels applied to video footage of children on the autism spectrum
 \end{itemize}
-We discuss future plans for the software's development.
+
+We discuss future plans for \texttt{permute} and the role of software development in Statistics.
 }
 
 % Keywords (at most 5)
-\keywords{Software; Permutation tests; Python; up to 2 more}
+\keywords{Software; Permutation tests; Python; Two-sample problem; Inter-rater reliability}
 
 \begin{document}
 
