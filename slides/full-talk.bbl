@@ -1,0 +1,22 @@
+\begin{thebibliography}{2}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[MacNell et~al.(2014)MacNell, Driscoll, and Hunt]{macnell2014whats}
+L.~MacNell, A.~Driscoll, and A.~N. Hunt.
+\newblock What's in a name: Exposing gender bias in student ratings of
+  teaching.
+\newblock \emph{Innovative Higher Education}, pages 1--13, 2014.
+
+\bibitem[Millman et~al.(2016)Millman, Stark, Ottoboni, and
+  Stark]{millman2016case}
+K.~J. Millman, P.~B. Stark, K.~Ottoboni, and Naomi A.~P. Stark.
+\newblock A case study in reproducible applied statistics: Is tagging of
+  therapist-patient interactions reliable?
+\newblock Technical report, University of California, Berkeley, 2016.
+\newblock URL \url{https://github.com/statlab/nsgk}.
+
+\end{thebibliography}
