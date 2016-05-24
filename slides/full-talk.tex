@@ -346,7 +346,22 @@ We reanalyzed data from \cite{macnell2014whats}.
 
 
 \frame{
-describe permutation test assumptions
+\frametitle{Neyman-Rubin model, generalized}
+Student $i$ is represented by a ticket with $4$ numbers, their response to each ``treatment.''
+
+\begin{align*}
+r_{ijk} &= \text{ SET given by student }i\text{ to instructor }j \\
+&\text{ when they appear to have gender }k
+\end{align*}
+$$i = 1, \dots, N; \qquad j = 1,2; \qquad k \in \{ \text{male, female} \}$$
+
+\vspace{10pt}
+Numbers are fixed; randomization reveals one of the numbers. \\
+\vspace{10pt}
+Assume non-interference: each student's response depends only on that student's treatment. \\
+\vspace{10pt}
+If gender doesn't matter,
+$$r_{ij\text{male}} = r_{ij\text{female}}.$$
 }
 
 
