@@ -5,6 +5,8 @@
 \usepackage{color, natbib, hyperref}
 \usepackage{bibentry}
 \usepackage[export]{adjustbox}% http://ctan.org/pkg/adjustbox
+\usepackage{multicol}
+
 \nobibliography*
 
 % define colors
@@ -73,13 +75,82 @@
 \setbeamertemplate{blocks}[width=0.0]
 \beamertemplatenavigationsymbolsempty
 
-% Making a DAG
-\usepackage{tkz-graph}  
-\usetikzlibrary{shapes.geometric}
-\tikzstyle{VertexStyle} = [shape            = ellipse,
-                               minimum width    = 6ex,%
-                               draw]
- \tikzstyle{EdgeStyle}   = [->,>=stealth']      
+% Custom colors
+\usepackage{color}
+%\definecolor{deepblue}{rgb}{0,0,0.5}
+%\definecolor{deepred}{rgb}{0.6,0,0}
+%\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{Code}{rgb}{0,0,0}
+\definecolor{Decorators}{rgb}{0.5,0.5,0.5}
+\definecolor{Numbers}{rgb}{0.5,0,0}
+\definecolor{MatchingBrackets}{rgb}{0.25,0.5,0.5}
+\definecolor{Keywords}{rgb}{0,0,1}
+\definecolor{self}{rgb}{0,0,0}
+\definecolor{Strings}{rgb}{0,0.63,0}
+\definecolor{Comments}{rgb}{0,0.63,1}
+\definecolor{Backquotes}{rgb}{0,0,0}
+\definecolor{Classname}{rgb}{0,0,0}
+\definecolor{FunctionName}{rgb}{0,0,0}
+\definecolor{Operators}{rgb}{0,0,0}
+
+% Default fixed font does not support bold face
+\usepackage[utf8]{inputenc}
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Python style for highlighting
+\usepackage{listings}
+\newcommand\pythonstyle{\lstset{
+language=Python,
+%numbers=left,
+%numberstyle=\footnotesize,
+%numbersep=1em,
+xleftmargin=1em,
+framextopmargin=2em,
+framexbottommargin=2em,
+showspaces=false,
+showtabs=false,
+showstringspaces=false,
+frame=l,
+tabsize=4,
+% Basic
+basicstyle=\ttfamily\tiny,
+otherkeywords={self},             % Add keywords here
+keywordstyle={\color{Keywords}\bfseries},
+% Comments
+commentstyle=\color{Comments}\slshape,
+%% Strings
+stringstyle=\color{Strings},
+morecomment=[s][\color{Strings}]{"""}{"""},
+morecomment=[s][\color{Strings}]{'''}{'''},
+% keywords
+morekeywords={import,from,class,def,for,while,if,is,in,elif,else,not,and,or,print,break,continue,return,True,False,None,access,as,,del,except,exec,finally,global,import,lambda,pass,print,raise,try,assert},
+keywordstyle={\color{Keywords}\bfseries},
+% additional keywords
+morekeywords={[2]@invariant,pylab,numpy,np,scipy},
+keywordstyle={[2]\color{Decorators}\slshape},
+emph={self},
+emphstyle={\color{self}\slshape},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
 
 
 % Math macros
@@ -162,33 +233,34 @@ History of randomization inference
 
 
 \frame{
-In R:
+R has several packages for randomization inference.
+\begin{multicols}{2}
 \begin{itemize}
-\item \texttt{ri} by Peter Aronow and Cyrus Samii
+\item \texttt{ri} %by Peter Aronow and Cyrus Samii
 
-{\tiny\textit{``This package provides a set of tools for conducting exact or approximate inference for randomized experiments of arbitrary design. The primary functionality of the package is in the generation, manipulation and use of permutation matrices implied by given experimental designs...''}\par}
-\item \texttt{RItools} by Mark Fredrickson
+%{\tiny\textit{``This package provides a set of tools for conducting exact or approximate inference for randomized experiments of arbitrary design. The primary functionality of the package is in the generation, manipulation and use of permutation matrices implied by given experimental designs...''}\par}
+\item \texttt{RItools} %by Mark Fredrickson
 
-{\tiny\textit{``The RItools package implements useful functions for implementing randomization inference based statistical tests. The package provides tools for testing balance of observed covariates in observational studies using the methodology of:...The package also provides outcome analysis of simple or block randomized trials (or matched observational studies) based on user defined models and test statistics.''}\par}
-\item \texttt{coin} by Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel, and Achim Zeileis
+%{\tiny\textit{``The RItools package implements useful functions for implementing randomization inference based statistical tests. The package provides tools for testing balance of observed covariates in observational studies using the methodology of:...The package also provides outcome analysis of simple or block randomized trials (or matched observational studies) based on user defined models and test statistics.''}\par}
+\item \texttt{coin} %by Torsten Hothorn, Kurt Hornik, Mark A. van de Wiel, and Achim Zeileis
 
-{\tiny\textit{The R package coin implements a unified approach to permutation tests providing a huge class of independence tests for nominal, ordered, numeric, and censored data as well as multivariate data at mixed scales. Based on a rich and flexible conceptual framework that embeds different permutation test procedures into a common theory, a computational framework is established in coin that likewise embeds the corresponding R functionality in a common S4 class structure with associated generic functions.}\par}
-\item \texttt{perm} by Michael Fay
+%{\tiny\textit{The R package coin implements a unified approach to permutation tests providing a huge class of independence tests for nominal, ordered, numeric, and censored data as well as multivariate data at mixed scales. Based on a rich and flexible conceptual framework that embeds different permutation test procedures into a common theory, a computational framework is established in coin that likewise embeds the corresponding R functionality in a common S4 class structure with associated generic functions.}\par}
+\item \texttt{perm} %by Michael Fay
 
-{\tiny\textit{The package has three main functions, to perform linear permutation tests. These tests are tests where the test statistic is the sum of the product of a covariate (usually group indicator) and the scores.}\par}\end{itemize}
-}
-
-
-
-\frame{
-In Python, statistics packages are limited.
-
-\begin{itemize}
-\item \texttt{numpy.random} generates random variables from common distributions
-\item \texttt{scipy.stats} computes moments, evaluates distribution functions, and generates random variables from common distributions and does common tests
-\item \texttt{StatsModels} is a Python module that provides classes and functions for the estimation of many different statistical models, as well as for conducting statistical tests, and statistical data exploration. 
-\item \texttt{scikit-learn} is a module for machine learning 
+%{\tiny\textit{The package has three main functions, to perform linear permutation tests. These tests are tests where the test statistic is the sum of the product of a covariate (usually group indicator) and the scores.}\par}
 \end{itemize}
+\end{multicols}
+\vspace{20pt}
+In Python, statistics packages are limited.
+\begin{multicols}{2}
+\begin{itemize}
+\item \texttt{numpy.random} %generates random variables from common distributions
+\item \texttt{scipy.stats} % computes moments, evaluates distribution functions, and generates random variables from common distributions and does common tests
+\item \texttt{StatsModels} %is a Python module that provides classes and functions for the estimation of many different statistical models, as well as for conducting statistical tests, and statistical data exploration. 
+\item \texttt{scikit-learn} %is a module for machine learning 
+\end{itemize}
+\end{multicols}
+
 }
 
 
@@ -235,8 +307,95 @@ Google trends on May 22, 2016
 
 \section[Examples]{Examples}
 \subsection[Teaching evaluations]{Gender bias in teaching evaluations}
+
+
+\frame
+{
+  \frametitle{ ~}
+ \begin{center}
+ \Large{ Student evaluations of teachers (SET) are used to} \\
+  \begin{itemize}
+  \item Quantify teaching effectiveness
+  \item Compare instructors across courses
+  \item Make hiring, firing, and promotion decisions  
+  \end{itemize}
+  \vfill
+Are SET a valid measure of teaching effectiveness?
+\end{center}
+}
+
+
+\frame
+{
+  \frametitle{ ~}
+  \begin{center}
+  \Huge{No!}
+  \end{center}
+\Large
+
+We reanalyzed data from \cite{macnell2014whats}.
+\begin{center}
+\begin{itemize}
+\itemsep 15pt
+\item Students randomized to 4 online sections of a course
+\item In two sections, the TAs swapped identities
+\item Female-identified TA was rated lower on average in all categories
+\end{itemize}
+\end{center}
+}
+
+
 \frame{
-Data comes from \citet{macnell2014whats}
+describe permutation test assumptions
+}
+
+
+\begin{frame}[fragile]
+\begin{python}
+# initialize PRNG
+rs = np.random.RandomState(seed=1)
+reps=10**5
+
+ratings = macnell2014()
+
+# Ratings vs reported instructor gender (difference in means)
+(p, t, distr) = stratified_two_sample(ratings['overall'][ratings.taidgender==1],                                      ratings['overall'][ratings.taidgender==0], 
+                      ratings['tagender'][ratings.taidgender == 1], 
+                      ratings['tagender'][ratings.taidgender == 0],
+                      alternative = "two-sided", stat='mean', seed = rs, 
+                      reps = reps, keep_dist = True)
+print 'Overall rating:'
+print 'Difference in means:', t
+print 'P-value (two-sided):', np.round(p, 5), "\n"\end{python}
+\end{frame}
+
+
+\frame
+{
+  \frametitle{Results}
+
+\begin{table}
+\begin{tabular}{r|crr}
+\textbf{Characteristic} & \textbf{M-F} & \textbf{perm} $P$ & \textbf{t-test} $P$ \\
+\hline
+Overall & 0.47 & 0.12 & 0.128\\
+Caring & 0.52 & 0.10 & 0.071\\
+%Clear & 0.41 & 0.29 & NA \\
+%Communicate & 0.57 & 0.07 & NA \\
+Consistent & 0.47 & 0.21 & 0.045 \\ % The test stat didn't match Philip's talk...go back to notebook and paper
+Enthusiastic & 0.57 & 0.06 & 0.112 \\
+Fair & 0.76 & 0.01 & 0.188 \\
+Feedback & 0.47 & 0.16 & 0.054 \\
+Helpful & 0.46 & 0.17 & 0.049 \\
+Knowledgeable & 0.35 & 0.29 & 0.038 \\
+Praise & 0.67 & 0.01 & 0.153 \\
+Professional & 0.61 & 0.07 & 0.124 \\
+Prompt & 0.80 & 0.01 & 0.191 \\
+Respectful & 0.61 & 0.06 & 0.124 \\
+Responsive & 0.22 & 0.48 & 0.013
+\end{tabular}
+\end{table}
+
 }
 
 

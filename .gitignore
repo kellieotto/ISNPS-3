@@ -18,6 +18,7 @@
 *-concordance.tex
 *.nav
 *.snm
+*.vrb
 
 ## other folders
 travel grant application/
