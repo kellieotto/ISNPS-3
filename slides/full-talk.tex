@@ -312,6 +312,15 @@ Data Science 8, Spring 2016 at UC Berkeley
 \end{center}
 }
 
+\frame{
+\frametitle{Download \texttt{permute}!}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{fig/github/permute}
+\end{center}
+\end{figure}
+}
+
 \section[Examples]{Examples}
 \subsection[Teaching evaluations]{Gender bias in teaching evaluations}
 
@@ -375,6 +384,8 @@ $$r_{ij\text{male}} = r_{ij\text{female}}.$$
 
 \frame{
 \frametitle{Randomization}
+\todo{redo this slide}
+
 
 Under this null, it's as though
 \begin{enumerate}
@@ -472,9 +483,9 @@ Ratings for different categories are \textbf{dependent}.\\
 $\implies$ Calibrate the distribution of $X^2$ using the permutation distributions of each individual statistic.
 \vspace{10pt}
 \begin{itemize}
-\item Calculate the vector of observed values of test statistics (use the \textbf{same permutation} of students to compute each statistic)
-\item Apply the combining function to get a single test statistic $X^2$ (or other) for the permutation.
-\item Repeat a large number $B$ times to find the permutation distribution of $X^2$.
+\item Calculate the vector of observed values of test statistics (use the \textbf{same permutation} of section memberships to compute all statistics)
+\item Apply the combining function to get a single combined statistic for the permutation.
+\item Repeat a large number $B$ times to find the permutation distribution of the combined statistic.
 \end{itemize}
 
 }
@@ -534,17 +545,23 @@ omnibus_pvalue = npc(pvalues, test_distr, combine="fisher",
 \itemsep10pt
 \item Naomi Stark and Gilbert Kliman (NSGK) collected videos of therapy sessions with children on the autism spectrum
 \item A team of trained raters watched and tagged each 30-second interval of video from a collection of 183 clinically relevant tags
-\item Is tagging of therapist-patient interactions reliable? (\cite{millman2016case})
+\item Is tagging of therapist-patient interactions reliable? (\cite{millman2016case}) Which tags do raters agree on?
 \end{itemize}
 }
 
 \frame{
 \frametitle{Inter-rater reliability test}
-
-}
-
-\frame{
-\frametitle{Inter-rater reliability test}
+There are four dimensions. Can we simplify?
+\vspace{10pt}
+\begin{itemize}
+\item Consider each clinical tag individually
+\item Do a partial hypothesis test for each video, then combine using NPC
+\end{itemize}
+\vspace{10pt}
+%}
+%
+%\frame{
+%\frametitle{Inter-rater reliability test}
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{ | c | c | }
@@ -555,13 +572,11 @@ omnibus_pvalue = npc(pvalues, test_distr, combine="fisher",
   \hline
   8 videos  & $S$ strata   \\
   \hline
-  ~40 segments/videos  & $N_s$ items/strata   \\
+  \~40 segments/videos  & $N_s$ items/strata   \\
   \hline
   10 raters  & $R$ raters  \\
   \hline
 \end{tabular}
-\caption{Mapping between terms from our motivating problem (NSGK) and the terms
-         used in our general algorithm (IRR).}\label{table:mapping}
 \end{center}
 \end{table}
 }
@@ -650,33 +665,85 @@ Equally likely tags for stratum $s$, under the null
 
 
 
+\begin{frame}[fragile]
+\frametitle{Code}
+\begin{python}
+from permute.data import nsgk
+from permute.irr import simulate_ts_dist, simulate_npc_dist
+
+# load data, set video sizes
+x = nsgk()
+time_stamps = np.array([36, 32, 35, 37, 31, 35, 40, 32])
+
+# Empty lists to store distrs and statistics for each video
+d = []; tst = [] ; vid_temp = []
+
+# Run analysis for a single category i
+for j in range(len(x[i])):  # loop over videos
+        res = simulate_ts_dist(x[i][j], keep_dist=True)
+        d.append(res["dist"])
+        tst.append(res["obs_ts"])
+        vid_temp.append(res["pvalue"])
+
+# Combine permutation distributions for each video
+perm_distr = np.asarray(d).transpose()
+simulate_npc_dist(perm_distr, size=time_stamps,
+                      obs_ts=tst, keep_dist=False)
+\end{python}
+
+\end{frame}
+
+\frame{
+\frametitle{Results}
+}
+
+\frame{
+\frametitle{Conclusions?}
+
+}
+
+
 \section[Software and Statistics]{The role of software development in Statistics}
 
 \frame{
 \frametitle{Reproducibility}
+Why should Statisticians worry about writing software?
+
+\begin{itemize}
+\item Ethics
+\item Impact
+\end{itemize}
+}
+
+
+\frame{
+\frametitle{Ethics}
 \includegraphics[width=\textwidth]{fig/repro.png}
 }
 
 \frame{
-\textbf{Why?} 
+\frametitle{Ethics}
+\textbf{Much of the reproducibility crisis can be traced back to bad statistics.} 
 
 \begin{itemize}
-\item File drawer problem
 \item Publication bias: positive findings are more likely to get published
-\item P-hacking and trying many models before reporting one
-\item Inappropriate statistical tests
+\item P-hacking and the garden of forking paths (\cite{gelman2013garden})
+\item Inappropriate statistical tests (Randomization inference may help here)
 \end{itemize}
 
-Randomization inference may ameliorate the last problem
+It is our responsibility to make it easy for researchers to do the right statistics.
 }
 
 \frame{
-\frametitle{Isn't data science just statistics?}
+\frametitle{Impact}
+Let us own data science (\cite{yu2014datascience}).
+\vspace{10pt}
 
 If we want to 
 \begin{itemize}
-\item facilitate reproducible research,
-\item enable people to easily use the methods we develop, and
+\itemsep10pt
+\item facilitate reproducible scientific research,
+\item enable people to use the methods we develop (correctly!), and
 \item influence the way people do statistics more broadly, 
 \end{itemize}
 then \textbf{we} have to build the tools.
