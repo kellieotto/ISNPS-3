@@ -566,39 +566,27 @@ omnibus_pvalue = npc(pvalues, test_distr, combine="fisher",
 \end{table}
 }
 
+\frame{
+\frametitle{Inter-rater reliability test}
+Is agreement within columns better than expected by chance?
+\begin{figure}
+\centering
+\includegraphics[height=0.75\textheight]{fig/irr/perm1}
+\end{figure}
+}
 
 
 \frame{
 \frametitle{Inter-rater reliability test}
+Define
+\begin{itemize}
+\item $\{ L_{s,i,r} \} = $ indicator for whether rater $r$ tagged item $i$ in stratum $s$
+\item $y_{si} = \sum_{r=1}^R L_{s,i,r} =$ number of raters who tagged item $i$ in stratum $s$
+\end{itemize}
 
-\begin{figure}
-\centering
-\includegraphics[height=0.8\textheight]{fig/irr/perm1}
-\end{figure}
-}
-
-\frame{
-\frametitle{Inter-rater reliability test}
-
-\begin{figure}
-\centering
-\includegraphics[height=0.8\textheight]{fig/irr/perm2}
-\end{figure}
-}
-\frame{
-\frametitle{Inter-rater reliability test}
-
-\begin{figure}
-\centering
-\includegraphics[height=0.8\textheight]{fig/irr/perm3}
-\end{figure}
-}
-
-\frame{
-We observe $\{ L_{s,i,c,r} \}$ for $s=1, \dots, S$;  $i=1, \dots, N_s$;
-$c=1, \dots, C$; and $r=1, \dots, R$.
-
+\vspace{10pt}
 The test statistic within stratum $s$ is
+
 \begin{align*}
 \rho_s &\equiv \frac{1}{N_s {R \choose 2}} \sum_{i=1}^{N_s}
               \sum_{r=1}^{R-1} \sum_{v=r+1}^R \mathbf{1}(L_{s,i,r} = L_{s,i,v}) \\
@@ -607,6 +595,59 @@ The test statistic within stratum $s$ is
 \end{align*}
 
 }
+
+
+\frame{
+\frametitle{Inter-rater reliability test}
+Now we have a measure of concordance. What is the chance model?
+\begin{figure}
+\centering
+\includegraphics[height=0.75\textheight]{fig/irr/perm1}
+\end{figure}
+}
+
+\frame{
+\frametitle{Probability model}
+If tags are assigned completely at random, then
+
+\begin{itemize}
+\item any of $2^{N_s}$ assignments of tags are equally likely for each rater.
+\item raters assign tags independently of each other
+\end{itemize}
+
+\vspace{10pt}
+Each rater may have different ``propensity'' to assign a tag \\
+$\implies$  condition on the number of items that a rater tagged.
+
+\vspace{10pt}
+Permute tags within rows, independently across rows and across strata.
+
+}
+
+\frame{
+\frametitle{Inter-rater reliability test}
+Observed tags for stratum $s$
+\begin{figure}
+\centering
+\includegraphics[height=0.75\textheight]{fig/irr/perm1}
+\end{figure}
+}\frame{
+\frametitle{Inter-rater reliability test}
+Equally likely tags for stratum $s$, under the null
+\begin{figure}
+\centering
+\includegraphics[height=0.75\textheight]{fig/irr/perm2}
+\end{figure}
+}
+\frame{
+\frametitle{Inter-rater reliability test}
+Equally likely tags for stratum $s$, under the null
+\begin{figure}
+\centering
+\includegraphics[height=0.75\textheight]{fig/irr/perm3}
+\end{figure}
+}
+
 
 
 \section[Software and Statistics]{The role of software development in Statistics}
