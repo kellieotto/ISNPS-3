@@ -105,16 +105,16 @@ language=Python,
 %numbers=left,
 %numberstyle=\footnotesize,
 %numbersep=1em,
-xleftmargin=1em,
-framextopmargin=2em,
-framexbottommargin=2em,
+%xleftmargin=1em,
+framextopmargin=0em,
+framexbottommargin=0em,
 showspaces=false,
 showtabs=false,
 showstringspaces=false,
 frame=l,
 tabsize=4,
 % Basic
-basicstyle=\ttfamily\tiny,
+basicstyle=\ttfamily\scriptsize,
 otherkeywords={self},             % Add keywords here
 keywordstyle={\color{Keywords}\bfseries},
 % Comments
@@ -199,14 +199,14 @@ showstringspaces=false            %
 \begin{column}{.5\textwidth}
 \begin{center}
 \vspace{25pt}
-\includegraphics[width=\textwidth]{logo/dept1.pdf}
+\includegraphics[width=\textwidth]{fig/logo/dept1.pdf}
 \end{center}
 \end{column}
 \begin{column}{.3\textwidth}
 \end{column}
 \begin{column}{.3\textwidth}
 \begin{center}
-\includegraphics[width=0.9\textwidth]{logo/BIDS.png}
+\includegraphics[width=0.9\textwidth]{fig/logo/BIDS.png}
 \end{center}
 \end{column}
 \end{columns}
@@ -270,7 +270,7 @@ PYPL Popularity of Programming Language Index, Worldwide
 
 \begin{center}
 \begin{figure}[htbp]
-\includegraphics[width=\textwidth]{google_trends/pypl.png}
+\includegraphics[width=\textwidth]{fig/google_trends/pypl.png}
 \end{figure}
 {Keyword: how to}
 \end{center}
@@ -283,7 +283,7 @@ Google trends on May 22, 2016
 
 \begin{center}
 \begin{figure}[htbp]
-\includegraphics[width=\textwidth]{google_trends/dataanalysis}
+\includegraphics[width=\textwidth]{fig/google_trends/dataanalysis}
 \end{figure}
 {Keyword: data analysis}
 \end{center}
@@ -296,14 +296,20 @@ Google trends on May 22, 2016
 Google trends on May 22, 2016
 \begin{center}
 \begin{figure}[htbp]
-\includegraphics[width=\textwidth]{google_trends/datascience}
+\includegraphics[width=\textwidth]{fig/google_trends/datascience}
 \end{figure}
 {Keyword: data science}
 \end{center}
 
 }
 
-
+\frame{
+\frametitle{Python for teaching Statistics}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{fig/DS8.jpg} \\
+Data Science 8, Spring 2016 at UC Berkeley
+\end{center}
+}
 
 \section[Examples]{Examples}
 \subsection[Teaching evaluations]{Gender bias in teaching evaluations}
@@ -311,7 +317,7 @@ Google trends on May 22, 2016
 
 \frame
 {
-  \frametitle{ ~}
+  \frametitle{Teaching Evaluations}
  \begin{center}
  \Large{ Student evaluations of teachers (SET) are used to} \\
   \begin{itemize}
@@ -327,7 +333,7 @@ Are SET a valid measure of teaching effectiveness?
 
 \frame
 {
-  \frametitle{ ~}
+  \frametitle{Teaching evaluations}
   \begin{center}
   \Huge{No!}
   \end{center}
@@ -337,9 +343,10 @@ We reanalyzed data from \cite{macnell2014whats}.
 \begin{center}
 \begin{itemize}
 \itemsep 15pt
-\item Students randomized to 4 online sections of a course
-\item In two sections, the TAs swapped identities
-\item Female-identified TA was rated lower on average in all categories
+\item Students were randomized to 4 online sections of a course.
+\item In two sections, the TAs swapped identities.
+%\item Female-identified TA was rated lower on average in all categories
+\item Was the TA who identified as female rated lower on average?
 \end{itemize}
 \end{center}
 }
@@ -365,30 +372,56 @@ $$r_{ij\text{male}} = r_{ij\text{female}}.$$
 }
 
 
+\frame{
+\frametitle{Randomization}
+
+Under this null, it's as though
+\begin{enumerate}
+\item $N_m$ students are randomly assigned to the male TA, $N_f$ to the female TA
+\item $N_{mm}$ of the $N_{m}$ students and $N_{fm}$ of the $N_f$ students are told that their TA is male
+% \item issue of nonresponse
+\end{enumerate}
+\vspace{10pt}
+We know what the data would have been for all
+
+$${{N_m}\choose{N_{mm}} }\times{ {N_f}\choose{N_{fm}}}$$
+equally likely assignments of students to sections. \\
+\vspace{10pt}
+
+This determines the conditional null distribution of \textbf{any statistic}.
+}
+
 \begin{frame}[fragile]
+\frametitle{Stratified two-sample test}
+\begin{center}
 \begin{python}
+# load packages
+import numpy as np
+from permute.data import macnell2014
+from permute.stratified import stratified_two_sample
+
 # initialize PRNG
 rs = np.random.RandomState(seed=1)
-reps=10**5
 
+# load the data
 ratings = macnell2014()
 
 # Ratings vs reported instructor gender (difference in means)
-(p, t, distr) = stratified_two_sample(ratings['overall'][ratings.taidgender==1],                                      ratings['overall'][ratings.taidgender==0], 
-                      ratings['tagender'][ratings.taidgender == 1], 
-                      ratings['tagender'][ratings.taidgender == 0],
-                      alternative = "two-sided", stat='mean', seed = rs, 
-                      reps = reps, keep_dist = True)
-print 'Overall rating:'
-print 'Difference in means:', t
-print 'P-value (two-sided):', np.round(p, 5), "\n"\end{python}
+(p, t) = stratified_two_sample(group=ratings.taidgender,
+                               response=ratings.overall,
+                               condition=ratings.tagender,
+                               alternative='two-sided',
+                               stat='mean', reps=10**5)
+\end{python}
+\end{center}
 \end{frame}
 
 
 \frame
 {
   \frametitle{Results}
-
+  \todo{update p-values}
+In all categories, the male-identified TA was rated higher.
 \begin{table}
 \begin{tabular}{r|crr}
 \textbf{Characteristic} & \textbf{M-F} & \textbf{perm} $P$ & \textbf{t-test} $P$ \\
@@ -414,27 +447,127 @@ Responsive & 0.22 & 0.48 & 0.013
 }
 
 
-\subsection[Salt and mortality]{Salt and mortality at the level of nations}
 
 \frame{
-salt and mortality
+\frametitle{Omnibus Test}
+\textbf{Nonparametric combination of tests (NPC):} combine individual p-values into a single omnibus test when there are many responses \\
+\vspace{10pt}
+
+Test whether \textbf{all null} hypotheses are true or \textbf{at least one alternative} is true. \\
+\vspace{10pt}
+
+Fisher's combining function:
+$$X^2 = -2 \sum_{j=1}^J \ln(P_j)$$
+
+$X^2 \sim \chi_{2J}^2$ if $\{ P_j\}_{j=1}^J$ are independent and all nulls are true. \\
+\vspace{10pt}
 }
+
+
+\frame{
+\frametitle{Omnibus Test}
+Ratings for different categories are \textbf{dependent}.\\
+\vspace{10pt}
+$\implies$ Calibrate the distribution of $X^2$ using the permutation distributions of each individual statistic.
+\begin{itemize}
+\item Calculate the vector of observed values of test statistics (use the \textbf{same permutation} to compute each statistic)
+\item Apply the combining function to get a single test statistic $X^2$ (or other) for the permutation.
+\item Repeat a large number $B$ times to find the permutation distribution of $X^2$.
+\end{itemize}
+
+}
+
+
+\begin{frame}[fragile]
+\frametitle{Omnibus Test}
+\begin{python}
+# Initialize placeholders
+ind = 0
+test_distr = np.zeros((10**5, len(categories)))
+pvalues = np.zeros(len(categories) )
+
+# Loop over rating categories
+for col in categories:
+    (p, t, distr) = stratified_two_sample(
+                                group=ratings.taidgender,
+                                response=ratings[col],
+                                condition=ratings.tagender,
+                                alternative='two-sided',
+                                stat='mean', seed = seed,
+                                reps = 10**5, keep_dist = True)
+    ind += 1
+    test_distr[:,ind] = distr; pvalues[ind] = p
+ 
+# NPC 
+omnibus_pvalue = npc(pvalues, test_distr, combine="fisher", 
+                         alternatives="two-sided")
+\end{python}
+\textbf{Result:} $P = 0$
+\end{frame}
+
+
+%\subsection[Salt and mortality]{Salt and mortality at the level of nations}
+%
+%\frame{
+%salt and mortality
+%}
 
 
 \subsection[Inter-rater reliability]{Inter-rater reliability}
 \frame{
-NSGK IRR stuff
-\citet{millman2016case}
+\frametitle{NSGK Data}
+\begin{itemize}
+\itemsep10pt
+\item Naomi Stark and Gilbert Kliman (NSGK) collected videos of therapy sessions with children on the autism spectrum
+\item A team of trained raters watched and tagged each 30-second interval of video from a collection of 183 clinically relevant tags
+\item Is tagging of therapist-patient interactions reliable? (\cite{millman2016case})
+\end{itemize}
 }
+
+
+\frame{
+\frametitle{NSGK Data}
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ | c | c | }
+  \hline
+  \textbf{NSGK} & \textbf{IRR}  \\
+  \hline
+  183 types of activity  & $T$ tags  \\
+  \hline
+  8 videos  & $S$ strata   \\
+  \hline
+  ~40 segments/videos  & $N_s$ items/strata   \\
+  \hline
+  10 raters  & $R$ raters  \\
+  \hline
+\end{tabular}
+\caption{Mapping between terms from our motivating problem (NSGK) and the terms
+         used in our general algorithm (IRR).}\label{table:mapping}
+\end{center}
+\end{table}
+}
+
+\frame{
+We observe $\{ L_{s,i,c,r} \}$ for $s=1, \dots, S$;  $i=1, \dots, N_s$;
+$c=1, \dots, C$; and $r=1, \dots, R$.
+
+The test statistic within stratum $s$ is
+\begin{align*}
+\rho_s &\equiv \frac{1}{N_s {R \choose 2}} \sum_{i=1}^{N_s}
+              \sum_{r=1}^{R-1} \sum_{v=r+1}^R \mathbf{1}(L_{s,i,r} = L_{s,i,v}) \\
+              &= \frac{1}{N_s R(R-1)} \sum_{i=1}^{N_s}
+                (y_{si}(y_{si}-1) + (R-y_{si})(R-y_{si}-1)).
+\end{align*}
+
+}
+
 
 \section[Software and Statistics]{The role of software development in Statistics}
 
 \frame{
-Reproducibility crisis:
-\begin{itemize}
-\item Why Most Published Research Findings Are False (Ioannidis, 2005)
-\item 30--50\%\todo{} of studies fail to replicate (\todo{cite})
-\end{itemize}
+\frametitle{Reproducibility}
+\includegraphics[width=\textwidth]{fig/repro.png}
 }
 
 \frame{
@@ -451,10 +584,22 @@ Randomization inference may ameliorate the last problem
 }
 
 \frame{
+\frametitle{Isn't data science just statistics?}
+
+If we want to 
+\begin{itemize}
+\item facilitate reproducible research,
+\item enable people to easily use the methods we develop, and
+\item influence the way people do statistics more broadly, 
+\end{itemize}
+then \textbf{we} have to build the tools.
+}
+
+\frame{
 \frametitle{Download \texttt{permute}!}
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width=\textwidth]{github/permute}
+\includegraphics[width=\textwidth]{fig/github/permute}
 \end{center}
 \end{figure}
 
@@ -467,9 +612,9 @@ Randomization inference may ameliorate the last problem
 \frametitle{Collaborators}
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[width = 0.3\textwidth, valign=t]{github/jarrodmillman} 
-\includegraphics[width = 0.3\textwidth, valign=t]{github/pbstark} 
-\includegraphics[width = 0.3\textwidth, valign=t]{github/stefanv} 
+\includegraphics[width = 0.3\textwidth, valign=t]{fig/github/jarrodmillman} 
+\includegraphics[width = 0.3\textwidth, valign=t]{fig/github/pbstark} 
+\includegraphics[width = 0.3\textwidth, valign=t]{fig/github/stefanv} 
 \end{center}
 \end{figure}
 
