@@ -6,6 +6,7 @@
 \usepackage{bibentry}
 \usepackage[export]{adjustbox}% http://ctan.org/pkg/adjustbox
 \usepackage{multicol}
+\usepackage{tikz}
 
 \nobibliography*
 
@@ -84,9 +85,9 @@
 \definecolor{Decorators}{rgb}{0.5,0.5,0.5}
 \definecolor{Numbers}{rgb}{0.5,0,0}
 \definecolor{MatchingBrackets}{rgb}{0.25,0.5,0.5}
-\definecolor{Keywords}{rgb}{0,0,1}
+\definecolor{Strings}{rgb}{0.75,0,0}
 \definecolor{self}{rgb}{0,0,0}
-\definecolor{Strings}{rgb}{0,0.63,0}
+\definecolor{Keywords}{rgb}{0,0.63,0}
 \definecolor{Comments}{rgb}{0,0.63,1}
 \definecolor{Backquotes}{rgb}{0,0,0}
 \definecolor{Classname}{rgb}{0,0,0}
@@ -410,8 +411,8 @@ ratings = macnell2014()
 (p, t) = stratified_two_sample(group=ratings.taidgender,
                                response=ratings.overall,
                                condition=ratings.tagender,
-                               alternative='two-sided',
-                               stat='mean', reps=10**5)
+                               alternative="two-sided",
+                               stat="mean", reps=10**5)
 \end{python}
 \end{center}
 \end{frame}
@@ -467,10 +468,11 @@ $X^2 \sim \chi_{2J}^2$ if $\{ P_j\}_{j=1}^J$ are independent and all nulls are t
 \frame{
 \frametitle{Omnibus Test}
 Ratings for different categories are \textbf{dependent}.\\
-\vspace{10pt}
+\vspace{20pt}
 $\implies$ Calibrate the distribution of $X^2$ using the permutation distributions of each individual statistic.
+\vspace{10pt}
 \begin{itemize}
-\item Calculate the vector of observed values of test statistics (use the \textbf{same permutation} to compute each statistic)
+\item Calculate the vector of observed values of test statistics (use the \textbf{same permutation} of students to compute each statistic)
 \item Apply the combining function to get a single test statistic $X^2$ (or other) for the permutation.
 \item Repeat a large number $B$ times to find the permutation distribution of $X^2$.
 \end{itemize}
@@ -478,23 +480,24 @@ $\implies$ Calibrate the distribution of $X^2$ using the permutation distributio
 }
 
 
+
 \begin{frame}[fragile]
 \frametitle{Omnibus Test}
 \begin{python}
 # Initialize placeholders
 ind = 0
-test_distr = np.zeros((10**5, len(categories)))
-pvalues = np.zeros(len(categories) )
+test_distr = np.zeros( (10**5, len(categories)) )
+pvalues = np.zeros( len(categories) )
 
 # Loop over rating categories
 for col in categories:
     (p, t, distr) = stratified_two_sample(
-                                group=ratings.taidgender,
-                                response=ratings[col],
-                                condition=ratings.tagender,
-                                alternative='two-sided',
-                                stat='mean', seed = seed,
-                                reps = 10**5, keep_dist = True)
+                        group=ratings.taidgender,
+                        response=ratings[col],
+                        condition=ratings.tagender,
+                        alternative="two-sided",
+                        stat="mean", seed = seed,
+                        reps = 10**5, keep_dist = True)
     ind += 1
     test_distr[:,ind] = distr; pvalues[ind] = p
  
@@ -502,9 +505,20 @@ for col in categories:
 omnibus_pvalue = npc(pvalues, test_distr, combine="fisher", 
                          alternatives="two-sided")
 \end{python}
-\textbf{Result:} $P = 0$
 \end{frame}
 
+\frame{
+\frametitle{Conclusions}
+\textbf{Omnibus test:} $P = 0$
+
+\vspace{20pt}
+\begin{itemize}
+\itemsep10pt
+\item Reject the null hypothesis that there is no difference in ratings for any category
+\item The male-identified TA was rated significantly higher than the female-identified TA on several dimensions, \textbf{even on objective measures} such as how promptly assignments were returned
+\item SET measure something other than teaching effectiveness
+\end{itemize}
+}
 
 %\subsection[Salt and mortality]{Salt and mortality at the level of nations}
 %
@@ -524,9 +538,13 @@ omnibus_pvalue = npc(pvalues, test_distr, combine="fisher",
 \end{itemize}
 }
 
+\frame{
+\frametitle{Inter-rater reliability test}
+
+}
 
 \frame{
-\frametitle{NSGK Data}
+\frametitle{Inter-rater reliability test}
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{ | c | c | }
@@ -546,6 +564,34 @@ omnibus_pvalue = npc(pvalues, test_distr, combine="fisher",
          used in our general algorithm (IRR).}\label{table:mapping}
 \end{center}
 \end{table}
+}
+
+
+
+\frame{
+\frametitle{Inter-rater reliability test}
+
+\begin{figure}
+\centering
+\includegraphics[height=0.8\textheight]{fig/irr/perm1}
+\end{figure}
+}
+
+\frame{
+\frametitle{Inter-rater reliability test}
+
+\begin{figure}
+\centering
+\includegraphics[height=0.8\textheight]{fig/irr/perm2}
+\end{figure}
+}
+\frame{
+\frametitle{Inter-rater reliability test}
+
+\begin{figure}
+\centering
+\includegraphics[height=0.8\textheight]{fig/irr/perm3}
+\end{figure}
 }
 
 \frame{
