@@ -187,9 +187,9 @@ showstringspaces=false            %
 \mode<presentation>
 
 \title[permute]{permute: A Python Package for Randomization Inference}
-\author{Kellie Ottoboni}
+\author{\Large Kellie Ottoboni}
 \institute[]{Department of Statistics, UC Berkeley\\Berkeley Institute for Data Science}
-\date{June 14, 2016}
+\date{June 16, 2016\\\small International Society for Non-Parametric Statistics Conference}
 
 \begin{document}
 
@@ -227,13 +227,17 @@ showstringspaces=false            %
 
 
 \frame{
-History of randomization inference
-- fisher
-- neyman model
+\frametitle{Permutation tests}
+
+\begin{itemize}
+\item \citet{fisher_design_1935} introduced permutation tests for randomized experiments
+\end{itemize}
 }
 
 
 \frame{
+\frametitle{Permutation tests}
+
 R has several packages for randomization inference.
 \begin{multicols}{2}
 \begin{itemize}
@@ -572,7 +576,7 @@ There are four dimensions. Can we simplify?
   \hline
   8 videos  & $S$ strata   \\
   \hline
-  \~40 segments/videos  & $N_s$ items/strata   \\
+  $\sim$40 segments/videos  & $N_s$ items/strata   \\
   \hline
   10 raters  & $R$ raters  \\
   \hline
@@ -695,6 +699,19 @@ simulate_npc_dist(perm_distr, size=time_stamps,
 
 \frame{
 \frametitle{Results}
+
+\begin{itemize}
+%\item 50 tags were never used
+\item 60 tags had $P < 0.05$
+\item Many ``significant'' tags might not be useful -- small effect size
+\end{itemize}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[height=0.7\textheight]{fig/nsgk}
+\end{center}
+\end{figure}
+
 }
 
 \frame{
