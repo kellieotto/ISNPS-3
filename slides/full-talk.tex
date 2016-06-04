@@ -231,7 +231,13 @@ showstringspaces=false            %
 
 \begin{itemize}
 \item \citet{fisher_design_1935} introduced permutation tests for randomized experiments
+\item Rely on assumptions about randomization or exchangeability, rather than parametric assumptions, IID sampling, etc.
 \end{itemize}
+
+\begin{block}{\citet{bradley1968distribution}}
+``[a] corresponding parametric test is valid only to the extent that it results in the same statistical decision [as the randomization test].'' 
+\end{block}
+
 }
 
 
@@ -703,7 +709,8 @@ simulate_npc_dist(perm_distr, size=time_stamps,
 \begin{itemize}
 %\item 50 tags were never used
 \item 60 tags had $P < 0.05$
-\item Many ``significant'' tags might not be useful -- small effect size
+\item Statistical vs practical significance -- consult domain scientists 
+\item Is there a more useful summary statistic?
 \end{itemize}
 
 \begin{figure}[htbp]
@@ -714,10 +721,6 @@ simulate_npc_dist(perm_distr, size=time_stamps,
 
 }
 
-\frame{
-\frametitle{Conclusions?}
-
-}
 
 
 \section[Software and Statistics]{The role of software development in Statistics}
