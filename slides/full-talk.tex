@@ -227,14 +227,62 @@ showstringspaces=false            %
 
 
 \frame{
+\frametitle{Python is gaining popularity for doing data analysis}
+
+
+\begin{itemize}
+\item \todo{look at Jarrod's slides - why python?}
+\end{itemize}
+
+}
+
+\frame{
+\frametitle{Python is gaining popularity for doing data analysis}
+Google trends on May 22, 2016
+
+\begin{center}
+\begin{figure}[htbp]
+\includegraphics[width=\textwidth]{fig/google_trends/dataanalysis}
+\end{figure}
+{Keyword: data analysis}
+\end{center}
+
+}
+
+\frame{
+\frametitle{Python is gaining popularity for doing data analysis}
+
+Google trends on May 22, 2016
+\begin{center}
+\begin{figure}[htbp]
+\includegraphics[width=\textwidth]{fig/google_trends/datascience}
+\end{figure}
+{Keyword: data science}
+\end{center}
+
+}
+
+\frame{
+\frametitle{Python for teaching Statistics}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{fig/DS8.jpg} \\
+Data Science 8, Spring 2016 at UC Berkeley
+\end{center}
+}
+
+
+
+
+\frame{
 \frametitle{Permutation tests}
 
 \begin{itemize}
+\itemsep15pt
 \item \citet{fisher_design_1935} introduced permutation tests for randomized experiments
 \item Rely on assumptions about randomization or exchangeability, rather than parametric assumptions, IID sampling, etc.
 \end{itemize}
-
-\begin{block}{\citet{bradley1968distribution}}
+\vspace{20pt}
+\begin{block}{James \citet{bradley1968distribution}}
 ``[a] corresponding parametric test is valid only to the extent that it results in the same statistical decision [as the randomization test].'' 
 \end{block}
 
@@ -272,54 +320,6 @@ In Python, statistics packages are limited.
 \end{itemize}
 \end{multicols}
 
-}
-
-
-\frame{
-\frametitle{Python is gaining popularity for doing data analysis}
-PYPL Popularity of Programming Language Index, Worldwide
-
-\begin{center}
-\begin{figure}[htbp]
-\includegraphics[width=\textwidth]{fig/google_trends/pypl.png}
-\end{figure}
-{Keyword: how to}
-\end{center}
-
-}
-
-\frame{
-\frametitle{Python is gaining popularity for doing data analysis}
-Google trends on May 22, 2016
-
-\begin{center}
-\begin{figure}[htbp]
-\includegraphics[width=\textwidth]{fig/google_trends/dataanalysis}
-\end{figure}
-{Keyword: data analysis}
-\end{center}
-
-}
-
-\frame{
-\frametitle{Python is gaining popularity for doing data analysis}
-
-Google trends on May 22, 2016
-\begin{center}
-\begin{figure}[htbp]
-\includegraphics[width=\textwidth]{fig/google_trends/datascience}
-\end{figure}
-{Keyword: data science}
-\end{center}
-
-}
-
-\frame{
-\frametitle{Python for teaching Statistics}
-\begin{center}
-\includegraphics[width=0.9\textwidth]{fig/DS8.jpg} \\
-Data Science 8, Spring 2016 at UC Berkeley
-\end{center}
 }
 
 \frame{
@@ -394,23 +394,26 @@ $$r_{ij\text{male}} = r_{ij\text{female}}.$$
 
 \frame{
 \frametitle{Randomization}
-\todo{redo this slide}
+%\todo{redo this slide}
 
+Conceptually, there are two levels of randomization:
 
-Under this null, it's as though
 \begin{enumerate}
-\item $N_m$ students are randomly assigned to the male TA, $N_f$ to the female TA
-\item $N_{mm}$ of the $N_{m}$ students and $N_{fm}$ of the $N_f$ students are told that their TA is male
+\item $N_m$ students are randomly assigned to the male instructor, and\\
+the remaining $N_f$ get the female instructor.
+\item Of the $N_j$ assigned to instructor $j$, 
+$N_{jm}$ are told that the instructor is male, for $j = 1, 2$.
+%\item $N_{mm}$ of the $N_{m}$ students and $N_{fm}$ of the $N_f$ students are told that their TA is male
 % \item issue of nonresponse
 \end{enumerate}
 \vspace{10pt}
-We know what the data would have been for all
 
-$${{N_m}\choose{N_{mm}} }\times{ {N_f}\choose{N_{fm}}}$$
-equally likely assignments of students to sections. \\
+All ${{N_m}\choose{N_{mm}} }\times{ {N_f}\choose{N_{fm}}}$ assignments of students to sections
+are equally likely. \\
 \vspace{10pt}
 
 This determines the conditional null distribution of \textbf{any statistic}.
+e use the difference in mean ratings.
 }
 
 \begin{frame}[fragile]
@@ -443,7 +446,7 @@ ratings = macnell2014()
 {
   \frametitle{Results}
   \todo{update p-values}
-In all categories, the male-identified TA was rated higher.
+In all categories, the male-identified instructor was rated higher.
 \begin{table}
 \begin{tabular}{r|crr}
 \textbf{Characteristic} & \textbf{M-F} & \textbf{perm} $P$ & \textbf{t-test} $P$ \\
@@ -475,29 +478,34 @@ Responsive & 0.22 & 0.48 & 0.013
 \textbf{Nonparametric combination of tests (NPC):} combine individual p-values into a single omnibus test when there are many responses \\
 \vspace{10pt}
 
-Test whether \textbf{all null} hypotheses are true or \textbf{at least one alternative} is true. \\
+Test whether \textbf{all null} hypotheses are true or \textbf{at least one alternative} is true \\
 \vspace{10pt}
 
-Fisher's combining function:
+\begin{block}{Fisher's combining function}
+Let $\{ P_j\}_{j=1}^J$ be p-values for $J$ hypotheses. Define
 $$X^2 = -2 \sum_{j=1}^J \ln(P_j)$$
-
-$X^2 \sim \chi_{2J}^2$ if $\{ P_j\}_{j=1}^J$ are independent and all nulls are true. \\
-\vspace{10pt}
+If $\{ P_j\}_{j=1}^J$ are independent and all nulls are true, then $X^2 \sim \chi_{2J}^2$ . \\
+\end{block}
 }
 
 
 \frame{
 \frametitle{Omnibus Test}
-Ratings for different categories are \textbf{dependent}.\\
+Ratings by the same student for different categories are \textbf{dependent}.\\
 \vspace{20pt}
+
+
 $\implies$ Calibrate the distribution of $X^2$ using the permutation distributions of each individual statistic.
 \vspace{10pt}
-\begin{itemize}
+
+\todo{check that this is legible}
+\begin{block}{NPC Permutation Procedure}
+\begin{enumerate}
 \item Calculate the vector of observed values of test statistics (use the \textbf{same permutation} of section memberships to compute all statistics)
 \item Apply the combining function to get a single combined statistic for the permutation.
 \item Repeat a large number $B$ times to find the permutation distribution of the combined statistic.
-\end{itemize}
-
+\end{enumerate}
+\end{block}
 }
 
 
@@ -536,16 +544,10 @@ omnibus_pvalue = npc(pvalues, test_distr, combine="fisher",
 \begin{itemize}
 \itemsep10pt
 \item Reject the null hypothesis that there is no difference in ratings for any category
-\item The male-identified TA was rated significantly higher than the female-identified TA on several dimensions, \textbf{even on objective measures} such as how promptly assignments were returned
+\item The male-identified instructor was rated significantly higher than the female-identified instructor on several dimensions, \textbf{even on objective measures} such as how promptly assignments were returned
 \item SET measure something other than teaching effectiveness
 \end{itemize}
 }
-
-%\subsection[Salt and mortality]{Salt and mortality at the level of nations}
-%
-%\frame{
-%salt and mortality
-%}
 
 
 \subsection[Inter-rater reliability]{Inter-rater reliability}
@@ -555,7 +557,7 @@ omnibus_pvalue = npc(pvalues, test_distr, combine="fisher",
 \itemsep10pt
 \item Naomi Stark and Gilbert Kliman (NSGK) collected videos of therapy sessions with children on the autism spectrum
 \item A team of trained raters watched and tagged each 30-second interval of video from a collection of 183 clinically relevant tags
-\item Is tagging of therapist-patient interactions reliable? (\cite{millman2016case}) Which tags do raters agree on?
+\item Is tagging of therapist-patient interactions reliable (\cite{millman2016case})? Which tags do raters agree on?
 \end{itemize}
 }
 
@@ -632,7 +634,7 @@ Now we have a measure of concordance. What is the chance model?
 }
 
 \frame{
-\frametitle{Probability model}
+\frametitle{Permutation test}
 If tags are assigned completely at random, then
 
 \begin{itemize}
@@ -642,11 +644,15 @@ If tags are assigned completely at random, then
 
 \vspace{10pt}
 Each rater may have different ``propensity'' to assign a tag \\
-$\implies$  condition on the number of items that a rater tagged.
+\begin{itemize}
+\item \textbf{Solution:}  condition on the number of items that a rater tagged.
+\item \textbf{Implied randomization:} Permute tags within rows, independently across rows and across strata.
+\end{itemize}
 
 \vspace{10pt}
-Permute tags within rows, independently across rows and across strata.
+For overall test of tag, combine using NPC:
 
+$$T = -\sum_{s=1}^S \frac{P_s}{\sqrt{N_s}}$$
 }
 
 \frame{
@@ -710,7 +716,7 @@ simulate_npc_dist(perm_distr, size=time_stamps,
 %\item 50 tags were never used
 \item 60 tags had $P < 0.05$
 \item Statistical vs practical significance -- consult domain scientists 
-\item Is there a more useful summary statistic?
+\item Is there a more useful summary statistic than $\rho_s$?
 \end{itemize}
 
 \begin{figure}[htbp]
