@@ -189,7 +189,7 @@ showstringspaces=false            %
 \title[permute]{permute: A Python Package for Randomization Inference}
 \author{\Large Kellie Ottoboni}
 \institute[]{Department of Statistics, UC Berkeley\\Berkeley Institute for Data Science}
-\date{June 16, 2016\\\small International Society for Non-Parametric Statistics Conference}
+\date{June 16, 2016\\\small ISNPS, Avignon}
 
 \begin{document}
 
@@ -279,6 +279,7 @@ Data Science 8, Spring 2016 at UC Berkeley
 \begin{itemize}
 \itemsep15pt
 \item \citet{fisher_design_1935} introduced permutation tests for randomized experiments
+\item \todo{add more refs!}
 \item Rely on assumptions about randomization or exchangeability, rather than parametric assumptions, IID sampling, etc.
 \end{itemize}
 \vspace{20pt}
@@ -412,8 +413,12 @@ All ${{N_m}\choose{N_{mm}} }\times{ {N_f}\choose{N_{fm}}}$ assignments of studen
 are equally likely. \\
 \vspace{10pt}
 
-This determines the conditional null distribution of \textbf{any statistic}.
-e use the difference in mean ratings.
+\begin{block}{Stratified two-sample test}
+\begin{itemize}
+\item For each instructor, permute perceived gender assignments
+\item Use difference in mean ratings for female-identified minus male-identified
+\end{itemize}
+\end{block}
 }
 
 \begin{frame}[fragile]
@@ -432,9 +437,9 @@ rs = np.random.RandomState(seed=1)
 ratings = macnell2014()
 
 # Ratings vs reported instructor gender (difference in means)
-(p, t) = stratified_two_sample(group=ratings.taidgender,
+(p, t) = stratified_two_sample(group=ratings.tagender,
                                response=ratings.overall,
-                               condition=ratings.tagender,
+                               condition=ratings.taidgender,
                                alternative="two-sided",
                                stat="mean", reps=10**5)
 \end{python}
@@ -445,7 +450,6 @@ ratings = macnell2014()
 \frame
 {
   \frametitle{Results}
-  \todo{update p-values}
 In all categories, the male-identified instructor was rated higher.
 \begin{table}
 \begin{tabular}{r|crr}
@@ -453,9 +457,7 @@ In all categories, the male-identified instructor was rated higher.
 \hline
 Overall & 0.47 & 0.12 & 0.128\\
 Caring & 0.52 & 0.10 & 0.071\\
-%Clear & 0.41 & 0.29 & NA \\
-%Communicate & 0.57 & 0.07 & NA \\
-Consistent & 0.47 & 0.21 & 0.045 \\ % The test stat didn't match Philip's talk...go back to notebook and paper
+Consistent & 0.47 & 0.21 & 0.045 \\ 
 Enthusiastic & 0.57 & 0.06 & 0.112 \\
 Fair & 0.76 & 0.01 & 0.188 \\
 Feedback & 0.47 & 0.16 & 0.054 \\
@@ -492,10 +494,9 @@ If $\{ P_j\}_{j=1}^J$ are independent and all nulls are true, then $X^2 \sim \ch
 \frame{
 \frametitle{Omnibus Test}
 Ratings by the same student for different categories are \textbf{dependent}.\\
-\vspace{20pt}
+\vspace{10pt}
 
-
-$\implies$ Calibrate the distribution of $X^2$ using the permutation distributions of each individual statistic.
+$\implies$ Treat all ratings from a student as a vector and calibrate the distribution of $X^2$ using the this permutation distribution.
 \vspace{10pt}
 
 \todo{check that this is legible}
@@ -521,9 +522,9 @@ pvalues = np.zeros( len(categories) )
 # Loop over rating categories
 for col in categories:
     (p, t, distr) = stratified_two_sample(
-                        group=ratings.taidgender,
+                        group=ratings.tagender,
                         response=ratings[col],
-                        condition=ratings.tagender,
+                        condition=ratings.taidgender,
                         alternative="two-sided",
                         stat="mean", seed = seed,
                         reps = 10**5, keep_dist = True)
@@ -584,7 +585,7 @@ There are four dimensions. Can we simplify?
   \hline
   8 videos  & $S$ strata   \\
   \hline
-  $\sim$40 segments/videos  & $N_s$ items/strata   \\
+  $\sim$35 segments/video  & $N_s$ items/stratum   \\
   \hline
   10 raters  & $R$ raters  \\
   \hline
@@ -640,19 +641,19 @@ If tags are assigned completely at random, then
 \begin{itemize}
 \item any of $2^{N_s}$ assignments of tags are equally likely for each rater.
 \item raters assign tags independently of each other
+\item Each rater may have different ``propensity'' to assign a tag $\implies$  condition on the number of items that a rater tagged.
+%\item \textbf{Implied randomization:} Permute tags within rows, independently across rows and across strata.
 \end{itemize}
 
-\vspace{10pt}
-Each rater may have different ``propensity'' to assign a tag \\
+
+\begin{block}{IRR Permutation Test}
 \begin{itemize}
-\item \textbf{Solution:}  condition on the number of items that a rater tagged.
-\item \textbf{Implied randomization:} Permute tags within rows, independently across rows and across strata.
-\end{itemize}
-
-\vspace{10pt}
-For overall test of tag, combine using NPC:
-
+\item Permute tags within rows, independently across rows and across strata.
+\item Compute $\rho_s$ and the corresponding p-value $P_s$, for $s = 1, \dots, S$.
+\item For overall test of tag, the NPC test statistic is
 $$T = -\sum_{s=1}^S \frac{P_s}{\sqrt{N_s}}$$
+\end{itemize}
+\end{block}
 }
 
 \frame{
@@ -733,6 +734,7 @@ simulate_npc_dist(perm_distr, size=time_stamps,
 
 \frame{
 \frametitle{Reproducibility}
+\Large
 Why should Statisticians worry about writing software?
 
 \begin{itemize}
@@ -762,17 +764,18 @@ It is our responsibility to make it easy for researchers to do the right statist
 
 \frame{
 \frametitle{Impact}
-Let us own data science (\cite{yu2014datascience}).
-\vspace{10pt}
+\large
 
-If we want to 
+Let us own data science (\cite{yu2014datascience}).
+
+\vspace{20pt}
+\textbf{We} have to build the tools to
 \begin{itemize}
-\itemsep10pt
+\itemsep5pt
 \item facilitate reproducible scientific research,
 \item enable people to use the methods we develop (correctly!), and
-\item influence the way people do statistics more broadly, 
+\item influence the way people do statistics more broadly.
 \end{itemize}
-then \textbf{we} have to build the tools.
 }
 
 \frame{
