@@ -257,31 +257,31 @@ Python is gaining popularity for doing data analysis.
 
 }
 
-\frame{
-\frametitle{Python}
-Google trends on May 22, 2016
-
-\begin{center}
-\begin{figure}[htbp]
-\includegraphics[width=\textwidth]{fig/google_trends/dataanalysis}
-\end{figure}
-{Keyword: data analysis}
-\end{center}
-
-}
-
-\frame{
-\frametitle{Python}
-
-Google trends on May 22, 2016
-\begin{center}
-\begin{figure}[htbp]
-\includegraphics[width=\textwidth]{fig/google_trends/datascience}
-\end{figure}
-{Keyword: data science}
-\end{center}
-
-}
+%\frame{
+%\frametitle{Python}
+%Google trends on May 22, 2016
+%
+%\begin{center}
+%\begin{figure}[htbp]
+%\includegraphics[width=\textwidth]{fig/google_trends/dataanalysis}
+%\end{figure}
+%{Keyword: data analysis}
+%\end{center}
+%
+%}
+%
+%\frame{
+%\frametitle{Python}
+%
+%Google trends on May 22, 2016
+%\begin{center}
+%\begin{figure}[htbp]
+%\includegraphics[width=\textwidth]{fig/google_trends/datascience}
+%\end{figure}
+%{Keyword: data science}
+%\end{center}
+%
+%}
 
 \frame{
 \frametitle{Python for teaching Statistics}
@@ -300,7 +300,6 @@ Data Science 8, Spring 2016 at UC Berkeley
 \begin{itemize}
 \itemsep15pt
 \item \citet{fisher_design_1935} introduced permutation tests for randomized experiments
-\item \todo{add more refs!}
 \item Rely on assumptions about randomization or exchangeability, rather than parametric assumptions, IID sampling, etc.
 \end{itemize}
 \vspace{20pt}
@@ -436,7 +435,7 @@ are equally likely. \\
 }
 
 \begin{frame}[fragile]
-\frametitle{Stratified two-sample test}
+\frametitle{Code}
 \begin{center}
 \begin{python}
 # load packages
@@ -471,17 +470,17 @@ In all categories, the male-identified instructor was rated higher.
 \hline
 Overall & 0.47 & 0.12 & 0.128\\
 Caring & 0.52 & 0.10 & 0.071\\
-Consistent & 0.47 & 0.21 & 0.045 \\ 
+Consistent & 0.47 & 0.21 & \textcolor{red}{0.045} \\ 
 Enthusiastic & 0.57 & 0.06 & 0.112 \\
-Fair & 0.76 & 0.01 & 0.188 \\
+Fair & 0.76 & \textcolor{red}{0.01} & 0.188 \\
 Feedback & 0.47 & 0.16 & 0.054 \\
-Helpful & 0.46 & 0.17 & 0.049 \\
-Knowledgeable & 0.35 & 0.29 & 0.038 \\
-Praise & 0.67 & 0.01 & 0.153 \\
+Helpful & 0.46 & 0.17 & \textcolor{red}{0.049} \\
+Knowledgeable & 0.35 & 0.29 & \textcolor{red}{0.038} \\
+Praise & 0.67 & \textcolor{red}{0.01} & 0.153 \\
 Professional & 0.61 & 0.07 & 0.124 \\
-Prompt & 0.80 & 0.01 & 0.191 \\
+Prompt & 0.80 & \textcolor{red}{0.01} & 0.191 \\
 Respectful & 0.61 & 0.06 & 0.124 \\
-Responsive & 0.22 & 0.48 & 0.013
+Responsive & 0.22 & 0.48 & \textcolor{red}{0.013}
 \end{tabular}
 \end{table}
 
@@ -494,7 +493,7 @@ Responsive & 0.22 & 0.48 & 0.013
 \textbf{Nonparametric combination of tests (NPC):} combine individual p-values into a single omnibus test when there are many responses \\
 \vspace{10pt}
 
-Test whether \textbf{all null} hypotheses are true or \textbf{at least one alternative} is true \\
+Test whether to accept \textbf{all null} hypotheses or reject \textbf{at least one alternative} \\
 \vspace{10pt}
 
 \begin{block}{Fisher's combining function}
@@ -513,7 +512,6 @@ Ratings by the same student for different categories are \textbf{dependent}.\\
 $\implies$ Treat all ratings from a student as a vector and calibrate the distribution of $X^2$ using the this permutation distribution.
 \vspace{10pt}
 
-\todo{check that this is legible}
 \begin{block}{NPC Permutation Procedure}
 \begin{enumerate}
 \item Calculate the vector of test statistics (use the \textbf{same permutation} of section memberships to compute all statistics), repeat a large number $B$ times
@@ -553,26 +551,24 @@ omnibus_pvalue = npc(pvalues, test_distr, combine="fisher",
 
 \frame{
 \frametitle{Conclusions}
-\textbf{Omnibus test:} $P = 0$
-
+\Large
+\textbf{Omnibus test:} $P = 0$ \\
 \vspace{20pt}
-\begin{itemize}
-\itemsep10pt
-\item Reject the null hypothesis that there is no difference in ratings for any category
-\item The male-identified instructor was rated significantly higher than the female-identified instructor on several dimensions, \textbf{even on objective measures} such as how promptly assignments were returned
-\item SET measure something other than teaching effectiveness
-\end{itemize}
+ Reject the null hypothesis that there is no difference in ratings for any category \\
+\vspace{10pt}
+$\implies$ SET measure something other than teaching effectiveness
 }
 
 
 \subsection[Inter-rater reliability]{Inter-rater reliability}
 \frame{
-\frametitle{NSGK Data}
+\frametitle{Inter-rater reliability test}
+\large
 \begin{itemize}
 \itemsep10pt
 \item Naomi Stark and Gilbert Kliman (NSGK) collected videos of therapy sessions with children on the autism spectrum
 \item A team of trained raters watched and tagged each 30-second interval of video from a collection of 183 clinically relevant tags
-\item Is tagging of therapist-patient interactions reliable (\cite{millman2016case})? Which tags do raters agree on?
+\item Is tagging of therapist-patient interactions reliable (\cite{millman2016case})? 
 \end{itemize}
 }
 
@@ -610,10 +606,15 @@ There are four dimensions. Can we simplify?
 
 \frame{
 \frametitle{Inter-rater reliability test}
-Is agreement within columns better than expected by chance?
+We need
+\begin{itemize}
+\item a test statistic for concordance
+\item a chance model
+\end{itemize}
+
 \begin{figure}
 \centering
-\includegraphics[height=0.75\textheight]{fig/irr/perm1}
+\includegraphics[height=0.65\textheight]{fig/irr/perm1}
 \end{figure}
 }
 
@@ -638,24 +639,23 @@ The test statistic within stratum $s$ is
 
 }
 
-
-\frame{
-\frametitle{Inter-rater reliability test}
-Now we have a measure of concordance. What is the chance model?
-\begin{figure}
-\centering
-\includegraphics[height=0.75\textheight]{fig/irr/perm1}
-\end{figure}
-}
+%
+%\frame{
+%\frametitle{Inter-rater reliability test}
+%Now we have a measure of concordance. 
+%\begin{figure}
+%\centering
+%\includegraphics[height=0.75\textheight]{fig/irr/perm1}
+%\end{figure}
+%}
 
 \frame{
 \frametitle{Permutation test}
-If tags are assigned completely at random, then
+If tags are assigned completely at random, conditional on the number of items each rater tagged, then
 
 \begin{itemize}
-\item any of $2^{N_s}$ assignments of tags are equally likely for each rater.
+\item all possible permutations of tags are likely for an individual rater
 \item raters assign tags independently of each other
-\item Each rater may have different ``propensity'' to assign a tag $\implies$  condition on the number of items that a rater tagged.
 %\item \textbf{Implied randomization:} Permute tags within rows, independently across rows and across strata.
 \end{itemize}
 
@@ -663,8 +663,8 @@ If tags are assigned completely at random, then
 \begin{block}{IRR Permutation Test}
 \begin{itemize}
 \item Compute $\rho_s$ for $s = 1, \dots, S$ for the observed data
-\item Permute tags within rows, independently across rows and across strata, to get the permutation distributions of $\rho_s$, $s = 1, \dots, S$.
-\item For the observed and permutation $\rho_s$ values, find the corresponding p-value $P_s$ for each permutation, for $s = 1, \dots, S$.
+\item Permute tags within rows, independently across rows and across strata, to get the permutation distributions
+\item For the observed and permutation $\rho_s$ values, find the corresponding p-value $P_s$ for each permutation
 \item The NPC test statistic is $T = -\sum_{s=1}^S \frac{P_s}{\sqrt{N_s}}$.
 \end{itemize}
 \end{block}
@@ -747,7 +747,7 @@ simulate_npc_dist(perm_distr, size=time_stamps,
 \section[Software and Statistics]{The role of software development in Statistics}
 
 \frame{
-\frametitle{Reproducibility}
+\frametitle{Software and Statistics}
 \Large
 Why should Statisticians worry about writing software?
 
@@ -763,24 +763,27 @@ Why should Statisticians worry about writing software?
 \includegraphics[width=\textwidth]{fig/repro.png}
 }
 
-\frame{
-\frametitle{Ethics}
-\textbf{Much of the reproducibility crisis can be traced back to bad statistics.} 
-
-\begin{itemize}
-\item Publication bias: positive findings are more likely to get published
-\item P-hacking and the garden of forking paths (\cite{gelman2013garden})
-\item Inappropriate statistical tests (Randomization inference may help here)
-\end{itemize}
-\vspace{15pt}
-\large We must make it easy for researchers to do the right statistics.
-}
+%\frame{
+%\frametitle{Ethics}
+%\textbf{Much of the reproducibility crisis can be traced back to bad statistics.} 
+%
+%\begin{itemize}
+%\item Publication bias: positive findings are more likely to get published
+%\item P-hacking and the garden of forking paths (\cite{gelman2013garden})
+%\item Inappropriate statistical tests (Randomization inference may help here)
+%\end{itemize}
+%\vspace{15pt}
+%\large We must make it easy for researchers to do the right statistics.
+%}
 
 \frame{
 \frametitle{Impact}
 \large
 
-Let us own data science (\cite{yu2014datascience}).
+\begin{block}{Bin~\cite{yu2014datascience}}
+Let us own data science.
+\end{block}
+
 
 \vspace{20pt}
 \textbf{Statisticians} have to build the tools to
@@ -788,7 +791,7 @@ Let us own data science (\cite{yu2014datascience}).
 \itemsep5pt
 \item facilitate reproducible scientific research,
 \item enable people to use the methods we develop (correctly!), and
-\item influence the way people do statistics more broadly.
+\item impact the way people think about data.
 \end{itemize}
 }
 
